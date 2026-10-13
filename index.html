@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <title>Атом Құрылысы | Интерактивті Зертхана</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      background: linear-gradient(to right, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+    }
+    p.subtitle {
+      color: #94a3b8;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .lab-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 40px;
+      display: flex;
+      gap: 50px;
+      max-width: 900px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      align-items: center;
+    }
+    .control-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: white;
+      font-size: 16px;
+      border-radius: 12px;
+      outline: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    select:hover, select:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+    .info-box {
+      background: rgba(15, 23, 42, 0.6);
+      border-left: 4px solid #38bdf8;
+      padding: 16px;
+      border-radius: 0 12px 12px 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e2e8f0;
+    }
+    /* Визуализация атомы */
+    .atom-viewport {
+      width: 320px;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .nucleus {
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(circle, #f43f5e 0%, #be123c 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 25px rgba(244, 63, 94, 0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      font-weight: bold;
+      font-size: 13px;
+      text-align: center;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    .orbit {
+      position: absolute;
+      border: 1px dashed rgba(56, 189, 248, 0.3);
+      border-radius: 50%;
+      animation: spin 20s linear infinite;
+    }
+    /* Әр орбитаның айналу жылдамдығы мен бағыты әр түрлі болуы үшін */
+    .orbit:nth-child(even) {
+      animation-direction: reverse;
+      animation-duration: 15s;
+      border-color: rgba(129, 140, 248, 0.3);
+    }
+    .electron {
+      width: 12px;
+      height: 12px;
+      background: #38bdf8;
+      border-radius: 50%;
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px #38bdf8;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>⚛️ Атом Құрылысының Виртуалды Моделі</h1>
+  <p class="subtitle">7-сынып оқушыларына арналған интерактивті зертхана</p>
+
+  <div class="lab-card">
+    <div class="control-panel">
+      <div>
+        <label for="elementSelect">Химиялық элементті таңдаңыз:</label>
+        <select id="elementSelect" onchange="updateAtom()">
+          <option value="H">Сутегі (H)</option>
+          <option value="He">Гелий (He)</option>
+          <option value="C">Көміртек (C)</option>
+          <option value="N">Азот (N)</option>
+          <option value="O">Оттегі (O)</option>
+          <option value="Na">Натрий (Na)</option>
+        </select>
+      </div>
+
+      <div class="info-box" id="infoCard">
+        <!-- Сипаттама осында шығады -->
+      </div>
+    </div>
+
+    <!-- Атом анимациясы көрсетілетін аймақ -->
+    <div class="atom-viewport" id="viewport">
+      <div class="nucleus" id="nucleus">Ядро</div>
+    </div>
+  </div>
+
+  <script>
+    const elementsData = {
+      H: { name: "Сутегі", z: 1, p: 1, n: 0, e: 1, orbits: [1], desc: "Әлемдегі ең кең таралған әрі жеңіл элемент. Ядросында тек 1 протон бар." },
+      He: { name: "Гелий", z: 2, p: 2, n: 2, e: 2, orbits: [2], desc: "Инертті газ, қалыпты жағдайда өте тұрақты, сыртқы қабаты толық." },
+      C: { name: "Көміртек", z: 6, p: 6, n: 6, e: 6, orbits: [2, 4], desc: "Барлық органикелық қосылыстар мен тіршіліктің негізі болып табылады." },
+      N: { name: "Азот", z: 7, p: 7, n: 7, e: 7, orbits: [2, 5], desc: "Жер атмосферасының негізгі бөлігін (шамамен 78%) құрайды." },
+      O: { name: "Оттегі", z: 8, p: 8, n: 8, e: 8, orbits: [2, 6], desc: "Тыныс алу мен жану процестеріне тікелей қатысатын маңызды элемент." },
+      Na: { name: "Натрий", z: 11, p: 11, n: 12, e: 11, orbits: [2, 8, 1], desc: "Белсенді сілтілік металл, суда өте қатты реакцияға түседі." }
+    };
+
+    function updateAtom() {
+      const key = document.getElementById('elementSelect').value;
+      const data = elementsData[key];
+      const viewport = document.getElementById('viewport');
+      const nucleus = document.getElementById('nucleus');
+      const infoCard = document.getElementById('infoCard');
+
+      // Ядро мәтінін жаңарту
+      nucleus.innerHTML = `${key}<br><span style="font-size:11px; font-weight:normal;">${data.p}p, ${data.n}n</span>`;
+
+      // Ақпараттық карточканы толтыру
+      infoCard.innerHTML = `
+        <b>Элемент:</b> ${data.name} (${key})<br>
+        <b>Реттік нөмірі:</b> ${data.z}<br>
+        <b>Қабаттардағы электрондар:</b> ${data.orbits.join(' - ')}<br>
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:8px 0;">
+        <span style="color: #94a3b8;">${data.desc}</span>
+      `;
+
+      // Ескі орбиталарды тазартамыз
+      const oldOrbits = viewport.querySelectorAll('.orbit');
+      oldOrbits.forEach(o => o.remove());
+
+      // Жаңа орбиталар мен айналатын электрондарды құру
+      data.orbits.forEach((electronCount, index) => {
+        const size = 110 + (index * 65); // Әр қабаттың өлшемі
+        const orbit = document.createElement('div');
+        orbit.className = 'orbit';
+        orbit.style.width = `${size}px`;
+        orbit.style.height = `${size}px`;
+
+        for (let i = 0; i < electronCount; i++) {
+          const electron = document.createElement('div');
+          electron.className = 'electron';
+          
+          // Электрондарды орбита бойымен дұрыс орналастыру бұрышы
+          const angle = (i * (360 / electronCount)) * (Math.PI / 180);
+          const radius = size / 2;
+          electron.style.left = `${radius + radius * Math.cos(angle) - 6}px`;
+          electron.style.top = `${radius + radius * Math.sin(angle) - 6}px`;
+          
+          orbit.appendChild(electron);
+        }
+
+        viewport.appendChild(orbit);
+      });
+    }
+
+    // Бет ашылғанда бірінші элементті жүктеу
+    window.onload = updateAtom;
+  </script>
+</body>
+</html>
