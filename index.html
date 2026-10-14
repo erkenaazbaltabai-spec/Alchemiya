@@ -48,7 +48,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Авторизация / Кіру карточкасы */
+    /* Авторизация карточкасы */
     .welcome-card {
       background: rgba(30, 41, 59, 0.75);
       backdrop-filter: blur(16px);
@@ -140,7 +140,7 @@
     }
     .admin-panel.active { display: block; }
 
-    /* Менделеев кестесі */
+    /* Менделеев кестесі (118 элемент) */
     .table-container {
       background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1);
@@ -149,7 +149,10 @@
       max-height: 88vh; overflow-y: auto;
     }
     .periodic-grid {
-      display: grid; grid-template-columns: repeat(18, minmax(60px, 1fr)); gap: 4px; margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(18, minmax(60px, 1fr));
+      gap: 4px;
+      margin-top: 10px;
     }
     .el-box {
       aspect-ratio: 1; border-radius: 6px; padding: 3px; display: flex;
@@ -190,7 +193,7 @@
     .detail-info h2 { font-size: 2.2rem; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .info-badge { background: rgba(15, 23, 42, 0.7); border-left: 4px solid #38bdf8; padding: 20px; border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.7; color: #e2e8f0; }
 
-    /* Визуализация атомы (Мөлдір ядро) */
+    /* Мөлдір ядро */
     .viewport {
       width: 320px; height: 320px; display: flex; justify-content: center; align-items: center; position: relative;
     }
@@ -317,7 +320,7 @@
         <button class="action-btn-top" onclick="openPeriodicTable()">📊 Менделеев Кестесі</button>
       </div>
 
-      <!-- Автор панелі (Тек еркенааз.baltabai@gmail.com үшін ашылады) -->
+      <!-- Автор панелі (Тек erkenaaz.baltabai@gmail.com үшін ашылады) -->
       <div class="admin-panel" id="adminPanel">
         <h3 style="color: #38bdf8; margin-bottom: 10px;">🛠️ Автордың панелі (Жаңа сабақ қосу)</h3>
         <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -335,12 +338,12 @@
     </div>
   </div>
 
-  <!-- 3-ЭКРАН: Менделеев Кестесі -->
+  <!-- 3-ЭКРАН: Менделеев Кестесі (Толық 118 элемент) -->
   <div id="periodicScreen" class="screen">
     <div class="table-container">
       <div class="nav-bar">
         <button class="back-btn" onclick="goToMenu()">← Мәзірге қайту</button>
-        <h3 style="color: #38bdf8;">📊 Менделеевтің Периодтық Кестесі</h3>
+        <h3 style="color: #38bdf8;">📊 Менделеевтің Периодтық Кестесі (118 элемент)</h3>
         <button class="back-btn" onclick="handleLogout()">🚪 Шығу</button>
       </div>
       <p style="color: #94a3b8; font-size: 13px; margin-bottom: 15px; text-align: center;">Элементті басып, оның толық қасиеті мен атом құрылысын зерттеңіз:</p>
@@ -390,7 +393,6 @@
   </div>
 
   <script>
-    // Автор поштасы
     const ADMIN_EMAIL = 'erkenaaz.baltabai@gmail.com'; 
 
     function switchAuthTab(tab) {
@@ -427,7 +429,6 @@
       hideAllScreens();
       document.getElementById('menuScreen').classList.add('active');
       
-      // Егер сіздің поштаңыз болса, админ панель қосылады
       if (email === ADMIN_EMAIL) {
         document.getElementById('adminPanel').classList.add('active');
       } else {
@@ -441,7 +442,6 @@
       document.getElementById('welcomeScreen').classList.add('active');
     }
 
-    // Фондағы бөлшектер
     const molSymbols = ['H₂O', 'CO₂', 'NaCl', 'HCl', 'NaOH', 'O₂', 'NH₃', '⚛', 'H₂SO₄'];
     const container = document.getElementById('particles');
     for (let i = 0; i < 15; i++) {
@@ -454,7 +454,6 @@
       container.appendChild(p);
     }
 
-    // Бастапқы тақырыптар тізімі
     let chaptersData = [
       { id: 't1_s1', title: '§ 1. Химия пәні. Заттар және олардың қасиеттері', type: 'properties', theory: 'Химия — табиғат, заттар, олардың қасиеттері мен өзгерістерін зерттейтін ғылым.' },
       { id: 't1_s2', title: '§ 2. Таза заттар және қоспалар', type: 'mixtures', theory: 'Заттар таза заттар және қоспалар болып бөлінеді. Қоспалар біртекті және әртекті болады.' },
@@ -606,45 +605,192 @@
     }
 
     const rawElements = [
-      {z:1, s:'H', name:'Сутегі', cat:'cat-nonmetal', mass:'1.008', desc:'Әлемдегі ең жеңіл газ элемент.'},
-      {z:2, s:'He', name:'Гелий', cat:'cat-noble', mass:'4.003', desc:'Өте жеңіл инертті газ.'},
-      {z:3, s:'Li', name:'Литий', cat:'cat-alkali', mass:'6.94', desc:'Ең жеңіл металл.'},
-      {z:6, s:'C', name:'Көміртек', cat:'cat-nonmetal', mass:'12.01', desc:'Барлық органикалық заттардың негізі.'},
-      {z:8, s:'O', name:'Оттегі', cat:'cat-nonmetal', mass:'16.00', desc:'Тыныс алу мен жануға қажетті элемент.'},
+      {z:1, s:'H', name:'Сутегі', cat:'cat-nonmetal', mass:'1.008', desc:'Әлемдегі ең жеңіл және ең көп таралған элемент, жанғыш газ.'},
+      {z:2, s:'He', name:'Гелий', cat:'cat-noble', mass:'4.003', desc:'Өте жеңіл инертті газ, жанбайды.'},
+      {z:3, s:'Li', name:'Литий', cat:'cat-alkali', mass:'6.94', desc:'Ең жеңіл металл, пышақпен оңай кесіледі.'},
+      {z:4, s:'Be', name:'Бериллий', cat:'cat-alkaline', mass:'9.01', desc:'Қатты сілтілік-жер металл.'},
+      {z:5, s:'B', name:'Бор', cat: 'cat-metalloid', mass:'10.81', desc:'Жартылай өткізгіш қасиеті бар элемент.'},
+      {z:6, s:'C', name:'Көміртек', cat:'cat-nonmetal', mass:'12.01', desc:'Барлық органикалық заттардың және тіршіліктің негізі.'},
+      {z:7, s:'N', name:'Азот', cat:'cat-nonmetal', mass:'14.01', desc:'Ауаның негізгі бөлігін құрайтын маңызды газ.'},
+      {z:8, s:'O', name:'Оттегі', cat:'cat-nonmetal', mass:'16.00', desc:'Тыныс алу мен жану процестеріне қажетті өмір көзі.'},
+      {z:9, s:'F', name:'Фтор', cat:'cat-halogen', mass:'18.99', desc:'Өте белсенді және улы галоген.'},
+      {z:10, s:'Ne', name:'Неон', cat:'cat-noble', mass:'20.18', desc:'Жарқырайтын жарнамаларда қолданылатын газ.'},
       {z:11, s:'Na', name:'Натрий', cat:'cat-alkali', mass:'22.99', desc:'Суда қатты реакцияға түсетін белсенді металл.'},
-      {z:12, s:'Mg', name:'Магний', cat:'cat-alkaline', mass:'24.31', desc:'Жанғанда ақ жарқыраған жарық береді.'},
-      {z:13, s:'Al', name:'Алюминий', cat:'cat-post', mass:'26.98', desc:'Жеңіл және берік металл.'},
-      {z:14, s:'Si', name:'Кремний', cat:'cat-metalloid', mass:'28.09', desc:'Электроника мен микросхемалар негізі.'},
-      {z:15, s:'P', name:'Фосфор', cat:'cat-nonmetal', mass:'30.97', desc:'Сіріңке өндірісінде қолданылады.'},
+      {z:12, s:'Mg', name:'Магний', cat:'cat-alkaline', mass:'24.31', desc:'Жанғанда ақ жарқыраған жарық беретін металл.'},
+      {z:13, s:'Al', name:'Алюминий', cat:'cat-post', mass:'26.98', desc:'Жеңіл, берік және коррозияға төзімді металл.'},
+      {z:14, s:'Si', name: 'Кремний', cat:'cat-metalloid', mass:'28.09', desc:'Электроника мен микросхемалардың негізі.'},
+      {z:15, s:'P', name:'Фосфор', cat:'cat-nonmetal', mass:'30.97', desc:'Сіріңке өндірісінде қолданылатын элемент.'},
       {z:16, s:'S', name:'Күкірт', cat:'cat-nonmetal', mass:'32.06', desc:'Сары түсті кристалл зат.'},
-      {z:17, s:'Cl', name:'Хлор', cat:'cat-halogen', mass:'35.45', desc:'Улы зарарсыздандырғыш газ.'},
-      {z:18, s:'Ar', name:'Аргон', cat:'cat-noble', mass:'39.95', desc:'Шамдарды толтыратын газ.'},
-      {z:20, s:'Ca', name:'Кальций', cat:'cat-alkaline', mass:'40.08', desc:'Сүйек пен тістің құрамдас бөлігі.'},
+      {z:17, s:'Cl', name:'Хлор', cat:'cat-halogen', mass:'35.45', desc:'Улы, сары-жасыл түсті зарарсыздандырғыш газ.'},
+      {z:18, s:'Ar', name:'Аргон', cat:'cat-noble', mass:'39.95', desc:'Шамдарды толтыратын инертті газ.'},
+      {z:19, s:'K', name:'Калий', cat:'cat-alkali', mass:'39.09', desc:'Өте белсенді сілтілік металл.'},
+      {z:20, s:'Ca', name:'Кальций', cat:'cat-alkaline', mass:'40.08', desc:'Сүйек пен тістің негізгі құрамдас бөлігі.'},
+      {z:21, s:'Sc', name:'Скандий', cat:'cat-transition', mass:'44.96', desc:'Ауыспалы жеңіл металл.'},
+      {z:22, s:'Ti', name:'Титан', cat:'cat-transition', mass:'47.87', desc:'Өте берік әрі жеңіл конструкциялық металл.'},
+      {z:23, s:'V', name:'Ванадий', cat:'cat-transition', mass:'50.94', desc:'Болатты шынықтыру үшін қолданылатын металл.'},
+      {z:24, s:'Cr', name:'Хром', cat:'cat-transition', mass:'52.00', desc:'Жылтыр, қатты және таттанқорғаушы металл.'},
+      {z:25, s:'Mn', name:'Марганец', cat:'cat-transition', mass:'54.94', desc:'Қорытпалар өндірісінде маңызды металл.'},
       {z:26, s:'Fe', name:'Темір', cat:'cat-transition', mass:'55.85', desc:'Техника мен өндірісте ең көп қолданылатын металл.'},
-      {z:29, s:'Cu', name:'Мыс', cat:'cat-transition', mass:'63.55', desc:'Жақсы электр өткізгіш металл.'},
-      {z:30, s:'Zn', name:'Мырыш', cat:'cat-transition', mass:'65.38', desc:'Құймалар жасауда қолданылады.'},
-      {z:47, s:'Ag', name:'Күміс', cat:'cat-transition', mass:'107.9', desc:'Жоғары электр өткізгіш асыл металл.'},
-      {z:79, s:'Au', name:'Алтын', cat:'cat-transition', mass:'196.97', desc:'Зергерлік өнерде бағаланатын асыл металл.'},
-      {z:80, s:'Hg', name:'Сынап', cat:'cat-transition', mass:'200.59', desc:'Сұйық күйдегі жалғыз металл.'}
+      {z:27, s:'Co', name:'Кобальт', cat:'cat-transition', mass:'58.93', desc:'Қатты магнитті қорытпалар жасауға қажет.'},
+      {z:28, s:'Ni', name:'Никель', cat:'cat-transition', mass:'58.69', desc:'Татқа төзімді ақ түсті металл.'},
+      {z:29, s:'Cu', name:'Мыс', cat:'cat-transition', mass:'63.55', desc:'Жақсы электр өткізгіш қызыл түсті металл.'},
+      {z:30, s:'Zn', name:'Мырыш', cat:'cat-transition', mass:'65.38', desc:'Гальваникада және құймаларда қолданылады.'},
+      {z:31, s:'Ga', name:'Галлий', cat:'cat-post', mass:'69.72', desc:'Алақанда оқыс еритін төмен балқитын металл.'},
+      {z:32, s:'Ge', name:'Германий', cat:'cat-metalloid', mass:'72.63', desc:'Жартылай өткізгіш материал.'},
+      {z:33, s:'As', name:'Мышьяк', cat:'cat-metalloid', mass:'74.92', desc:'Өте улы металлоид элемент.'},
+      {z:34, s:'Se', name:'Селен', cat:'cat-nonmetal', mass:'78.97', desc:'Фотоэлементтерде қолданылатын бейметалл.'},
+      {z:35, s:'Br', name:'Бром', cat:'cat-halogen', mass:'79.90', desc:'Қалыпты жағдайда сұйық күйде болатын жалғыз бейметалл.'},
+      {z:36, s:'Kr', name:'Криптон', cat:'cat-noble', mass:'83.80', desc:'Инертті газ.'},
+      {z:37, s:'Rb', name:'Рубидий', cat:'cat-alkali', mass:'85.47', desc:'Өте жұмсақ әрі белсенді сілтілік металл.'},
+      {z:38, s:'Sr', name:'Стронций', cat:'cat-alkaline', mass:'87.62', desc:'Ақ түсті сілтілік-жер металл.'},
+      {z:39, s:'Y', name:'Иттрий', cat:'cat-transition', mass:'88.91', desc:'Ауыспалы металл.'},
+      {z:40, s:'Zr', name:'Цирконий', cat:'cat-transition', mass:'91.22', desc:'Отқа төзімді металл.'},
+      {z:41, s:'Nb', name:'Ниобий', cat:'cat-transition', mass:'92.91', desc:'Асқын өткізгіш қорытпалар құрамында бар.'},
+      {z:42, s:'Mo', name:'Молибден', cat:'cat-transition', mass:'95.95', desc:'Болатты беріктендіретін металл.'},
+      {z:43, s:'Tc', name:'Технеций', cat:'cat-transition', mass:'98', desc:'Жасанды жолмен алынған алғашқы радиоактивті элемент.'},
+      {z:44, s:'Ru', name:'Рутений', cat:'cat-transition', mass:'101.1', desc:'Сирек кездесетін платина тобындағы металл.'},
+      {z:45, s:'Rh', name:'Родий', cat:'cat-transition', mass:'102.9', desc:'Жоғары шағылыстырғыш қасиеті бар асыл металл.'},
+      {z:46, s:'Pd', name:'Палладий', cat:'cat-transition', mass:'106.4', desc:'Сутекті жақсы сіңіретін асыл металл.'},
+      {z:47, s:'Ag', name:'Күміс', cat:'cat-transition', mass:'107.9', desc:'Ең жоғары электр және жылу өткізгіштігі бар асыл металл.'},
+      {z:48, s:'Cd', name:'Кадмий', cat:'cat-transition', mass:'112.4', desc:'Аккумуляторлар жасауда қолданылатын уытты металл.'},
+      {z:49, s:'In', name:'Индий', cat:'cat-post', mass:'114.8', desc:'Жұмсақ, оңай иілетін металл.'},
+      {z:50, s:'Sn', name:'Қалайы', cat:'cat-post', mass:'118.7', desc:'Қола қорытпасын жасауда қолданылатын ақ металл.'},
+      {z:51, s:'Sb', name:'Сүрме', cat:'cat-metalloid', mass:'121.8', desc:'Қытырлақ металлоид.'},
+      {z:52, s:'Te', name:'Теллур', cat:'cat-metalloid', mass:'127.6', desc:'Жартылай өткізгіш қасиетті элемент.'},
+      {z:53, s:'I', name:'Иод', cat:'cat-halogen', mass:'126.9', desc:'Қара-күлгін кристалл, медицинада кең қолданылады.'},
+      {z:54, s:'Xe', name:'Ксенон', cat:'cat-noble', mass:'131.3', desc:'Жарқылдақ шамдарда қолданылатын инертті газ.'},
+      {z:55, s:'Cs', name:'Цезий', cat:'cat-alkali', mass:'132.9', desc:'Ең белсенді сұйық сілтілік металдардың бірі.'},
+      {z:56, s:'Ba', name:'Барий', cat:'cat-alkaline', mass:'137.3', desc:'Сілтілік-жер металл.'},
+      {z:57, s:'La', name:'Лантан', cat:'cat-lanthanide', mass:'138.9', desc:'Лантаноидтар қатарының негізі.'},
+      {z:58, s:'Ce', name:'Церий', cat:'cat-lanthanide', mass:'140.1', desc:'Ең көп таралған лантаноид.'},
+      {z:59, s:'Pr', name:'Празеодим', cat:'cat-lanthanide', mass:'140.9', desc:'Сирек жер металды.'},
+      {z:60, s:'Nd', name:'Неодим', cat:'cat-lanthanide', mass:'144.2', desc:'Өте күшті тұрақты магниттер жасауда қолданылады.'},
+      {z:61, s:'Pm', name:'Прометий', cat:'cat-lanthanide', mass:'145', desc:'Радиоактивті сирек жер элементі.'},
+      {z:62, s:'Sm', name:'Самарий', cat:'cat-lanthanide', mass:'150.4', desc:'Магниттер өндірісінде қолданылады.'},
+      {z:63, s:'Eu', name:'Европий', cat:'cat-lanthanide', mass:'152.0', desc:'Элементтер арасындағы ең реакцияға қабілетті лантаноид.'},
+      {z:64, s:'Gd', name:'Гадолиний', cat:'cat-lanthanide', mass:'157.25', desc:'Магнитті-резонанстық томографияда қолданылады.'},
+      {z:65, s:'Tb', name:'Тербий', cat:'cat-lanthanide', mass:'158.93', desc:'Лантаноидтар тобының металды.'},
+      {z:66, s:'Dy', name:'Диспрозий', cat:'cat-lanthanide', mass:'162.50', desc:'Жоғары магниттік қасиеті бар металл.'},
+      {z:67, s:'Ho', name:'Гольмий', cat:'cat-lanthanide', mass:'164.93', desc:'Күшті магнит өрісін жасауға қолданылады.'},
+      {z:68, s:'Er', name:'Эрбий', cat:'cat-lanthanide', mass:'167.26', desc:'Оптикалық талшықты күшейткіштерде қолданылады.'},
+      {z:69, s:'Tm', name:'Тулий', cat:'cat-lanthanide', mass:'168.93', desc:'Сирек кездесетін лантаноид.'},
+      {z:70, s:'Yb', name:'Иттербий', cat:'cat-lanthanide', mass:'173.05', desc:'Лазерлік технологияда қолданылады.'},
+      {z:71, s:'Lu', name:'Лютеций', cat:'cat-lanthanide', mass:'174.97', desc:'Ең ауыр әрі қатты лантаноид.'},
+      {z:72, s:'Hf', name:'Гафний', cat:'cat-transition', mass:'178.49', desc:'Ядролық реакторларда нейтрондарды жұту үшін қолданылады.'},
+      {z:73, s:'Ta', name:'Тантал', cat:'cat-transition', mass:'180.95', desc:'Қышқылға өте төзімді қатты металл.'},
+      {z:74, s:'W', name:'Вольфрам', cat:'cat-transition', mass:'183.84', desc:'Барлық металдардың ішіндегі ең жоғары балқу температурасына ие.'},
+      {z:75, s:'Re', name:'Рений', cat:'cat-transition', mass:'186.21', desc:'Өте жоғары температураға төзімді сирек металл.'},
+      {z:76, s:'Os', name:'Осмий', cat:'cat-transition', mass:'190.23', desc:'Жер бетіндегі ең тығыз ауыр металл.'},
+      {z:77, s:'Ir', name:'Иридий', cat:'cat-transition', mass:'192.22', desc:'Коррозияға ең төзімді асыл металл.'},
+      {z:78, s:'Pt', name:'Платина', cat:'cat-transition', mass:'195.08', desc:'Қымбат бағалы асыл металл, катализатор ретінде қолданылады.'},
+      {z:79, s:'Au', name:'Алтын', cat:'cat-transition', mass:'196.97', desc:'Зергерлік өнерде және қаржы саласында бағаланатын асыл металл.'},
+      {z:80, s:'Hg', name:'Сынап', cat:'cat-transition', mass:'200.59', desc:'Қалыпты жағдайда сұйық күйде болатын жалғыз металл.'},
+      {z:81, s:'Tl', name:'Таллий', cat:'cat-post', mass:'204.38', desc:'Өте улы жұмсақ металл.'},
+      {z:82, s:'Pb', name:'Қорғасын', cat:'cat-post', mass:'207.2', desc:'Радиациядан қорғайтын ауыр металл.'},
+      {z:83, s:'Bi', name:'Висмут', cat:'cat-post', mass:'208.98', desc:'Қызғылт реңді сынғыш металл.'},
+      {z:84, s:'Po', name:'Полоний', cat:'cat-metalloid', mass:'209', desc:'Өте күшті радиоактивті элемент.'},
+      {z:85, s:'At', name:'Астат', cat:'cat-halogen', mass:'210', desc:'Сирек радиоактивті галоген.'},
+      {z:86, s:'Rn', name:'Радон', cat:'cat-noble', mass:'222', desc:'Радиоактивті инертті газ.'},
+      {z:87, s:'Fr', name:'Франций', cat:'cat-alkali', mass:'223', desc:'Өте радиоактивті және тұрақсыз сілтілік металл.'},
+      {z:88, s:'Ra', name:'Радий', cat:'cat-alkaline', mass:'226', desc:'Күшті радиоактивті сілтілік-жер металл.'},
+      {z:89, s:'Ac', name:'Актиний', cat:'cat-actinide', mass:'227', desc:'Актиноидтар қатарының негізі, радиоактивті.'},
+      {z:90, s:'Th', name:'Торий', cat:'cat-actinide', mass:'232.04', desc:'Ядролық отын ретінде қарастырылатын радиоактивті металл.'},
+      {z:91, s:'Pa', name:'Протактиний', cat:'cat-actinide', mass:'231.04', desc:'Радиоактивті ауыр металл.'},
+      {z:92, s:'U', name:'Уран', cat:'cat-actinide', mass:'238.03', desc:'Ядролық энергетика мен қару-жараққа қолданылатын негізгі элемент.'},
+      {z:93, s:'Np', name:'Нептуний', cat:'cat-actinide', mass:'237', desc:'Жасанды жолмен алынған алғашқы трансурандық элемент.'},
+      {z:94, s:'Pu', name:'Плутоний', cat:'cat-actinide', mass:'244', desc:'Ядролық реакторлар мен қаруда қолданылатын элемент.'},
+      {z:95, s:'Am', name:'Америций', cat:'cat-actinide', mass:'243', desc:'Түтін датчиктерінде қолданылатын радиоактивті металл.'},
+      {z:96, s:'Cm', name:'Кюрий', cat:'cat-actinide', mass:'247', desc:'Жасанды радиоактивті актиноид.'},
+      {z:97, s:'Bk', name:'Берклий', cat:'cat-actinide', mass:'247', desc:'Жасанды жолмен жасалған радиоактивті элемент.'},
+      {z:98, s:'Cf', name:'Калифорний', cat:'cat-actinide', mass:'251', desc:'Күшті нейтрон көзі болып табылатын элемент.'},
+      {z:99, s:'Es', name:'Эйнштейний', cat:'cat-actinide', mass:'252', desc:'Алғаш рет сутегі бомбасы сынағынан кейін табылған элемент.'},
+      {z:100, s:'Fm', name:'Фермий', cat:'cat-actinide', mass:'257', desc:'Жасанды радиоактивті металл.'},
+      {z:101, s:'Md', name:'Менделевий', cat:'cat-actinide', mass:'258', desc: 'Д.И. Менделеев құрметіне аталған элемент.'},
+      {z:102, s:'No', name:'Нобелий', cat:'cat-actinide', mass:'259', desc:'Альфред Нобель аты берілген радиоактивті элемент.'},
+      {z:103, s:'Lr', name: 'Лоуренсий', cat:'cat-actinide', mass:'262', desc:'Актиноидтар қатарының соңғы элементі.'},
+      {z:104, s:'Rf', name:'Резерфордий', cat:'cat-transition', mass:'267', desc:'Аса ауыр жасанды элемент.'},
+      {z:105, s:'Db', name:'Дубний', cat:'cat-transition', mass:'270', desc:'Дубна қаласының ғылыми орталығы құрметіне аталған.'},
+      {z:106, s:'Sg', name:'Сиборгий', cat:'cat-transition', mass:'271', desc:'Ғалым Гленн Сиборг есімімен аталған.'},
+      {z:107, s:'Bh', name:'Борий', cat:'cat-transition', mass:'270', desc:'Нильс Бордың әріптесінің құрметіне аталған.'},
+      {z:108, s:'Hs', name:'Хассий', cat:'cat-transition', mass:'277', desc:'Германиядағы Гессен өңірінің атымен аталған.'},
+      {z:109, s:'Mt', name:'Майтнерий', cat:'cat-transition', mass:'278', desc:'Физик Лиза Мейтнер құрметіне аталған.'},
+      {z:110, s:'Ds', name:'Дармштадтий', cat:'cat-transition', mass:'281', desc:'Дармштадт қаласында ашылған элемент.'},
+      {z:111, s:'Rg', name:'Рентгений', cat:'cat-transition', mass:'282', desc:'Рентген сәулесін ашушының құрметіне аталған.'},
+      {z:112, s:'Cn', name:'Коперниций', cat:'cat-transition', mass:'285', desc:'Николай Коперник құрметіне аталған.'},
+      {z:113, s:'Nh', name:'Нихоний', cat:'cat-post', mass:'286', desc:'Жапония елінің атымен (Нихон) аталған.'},
+      {z:114, s:'Fl', name:'Флеровий', cat:'cat-post', mass:'289', desc:'Флеров атындағы зертхана құрметіне аталған.'},
+      {z:115, s:'Mc', name:'Московий', cat:'cat-post', mass:'290', desc:'Мәскеу облысының құрметіне аталған.'},
+      {z:116, s:'Lv', name:'Ливерморий', cat:'cat-post', mass:'293', desc:'Ливермор зертханасы атымен аталған.'},
+      {z:117, s:'Ts', name:'Теннессин', cat:'cat-halogen', mass:'294', desc:'Теннесси штатының құрметіне аталған.'},
+      {z:118, s:'Og', name:'Оганесон', cat:'cat-noble', mass:'294', desc:'Академик Юрий Оганесян құрметіне аталған инертті элемент.'}
     ];
 
     function renderPeriodicGrid() {
       const gridEl = document.getElementById('periodicGrid');
       gridEl.innerHTML = '';
-      for(let i=1; i<=36; i++) {
-        const found = rawElements.find(item => item.z === i);
-        if(found) {
-          const box = document.createElement('div');
-          box.className = `el-box ${found.cat}`;
-          box.innerHTML = `<div class="el-num">${found.z}</div><div class="el-sym">${found.s}</div><div class="el-name">${found.name}</div>`;
-          box.onclick = () => showElementDetail(found);
-          gridEl.appendChild(box);
-        } else {
-          const empty = document.createElement('div');
+
+      appendBox(1, 1); appendBox(0, 2, 16); appendBox(2, 18);
+      appendBox(3, 1); appendBox(4, 2); appendBox(0, 3, 10); for(let i=5; i<=10; i++) appendBox(i, i+8);
+      appendBox(11, 1); appendBox(12, 2); appendBox(0, 3, 10); for(let i=13; i<=18; i++) appendBox(i, i);
+      for(let i=19; i<=36; i++) appendBox(i, i-18);
+      for(let i=37; i<=54; i++) appendBox(i, i-36);
+      for(let i=55; i<=57; i++) appendBox(i, i-54);
+      
+      let lanthanidePlaceholder = {z:0, s:'57-71', name:'Лантаноидтар', cat:'cat-lanthanide', mass:'-', desc:'Лантаноидтар семействосы (57-71 элементтер төменде көрсетілген).', p:57, n:82, orbits:[2,8,18,18,9,2]};
+      let boxL = document.createElement('div');
+      boxL.className = 'el-box cat-lanthanide';
+      boxL.innerHTML = `<div class="el-num">*</div><div class="el-sym" style="font-size:11px;">La-Lu</div><div class="el-name">Лантаноидтар</div>`;
+      boxL.onclick = () => showElementDetail(lanthanidePlaceholder);
+      gridEl.appendChild(boxL);
+
+      for(let i=72; i<=86; i++) appendBox(i, i-54);
+      for(let i=87; i<=89; i++) appendBox(i, i-86);
+      
+      let actinidePlaceholder = {z:0, s:'89-103', name:'Актиноидтар', cat:'cat-actinide', mass:'-', desc:'Актиноидтар семействосы (89-103 элементтер төменде көрсетілген).', p:89, n:138, orbits:[2,8,18,32,18,9,2]};
+      let boxA = document.createElement('div');
+      boxA.className = 'el-box cat-actinide';
+      boxA.innerHTML = `<div class="el-num">**</div><div class="el-sym" style="font-size:11px;">Ac-Lr</div><div class="el-name">Актиноидтар</div>`;
+      boxA.onclick = () => showElementDetail(actinidePlaceholder);
+      gridEl.appendChild(boxA);
+
+      for(let i=104; i<=118; i++) appendBox(i, i-86);
+
+      let spacer = document.createElement('div');
+      spacer.style.gridColumn = 'span 18';
+      spacer.style.height = '15px';
+      gridEl.appendChild(spacer);
+
+      for(let i=57; i<=71; i++) appendBox(i, i-54);
+      for(let i=72; i<75; i++) {
+        let empty = document.createElement('div');
+        empty.className = 'el-box empty';
+        gridEl.appendChild(empty);
+      }
+      for(let i=89; i<=103; i++) appendBox(i, i-86);
+    }
+
+    function appendBox(z, colSpanOrTargetZ, count = 1) {
+      const gridEl = document.getElementById('periodicGrid');
+      if (z === 0) {
+        for(let j=0; j<count; j++) {
+          let empty = document.createElement('div');
           empty.className = 'el-box empty';
           gridEl.appendChild(empty);
         }
+        return;
       }
+      const el = rawElements.find(item => item.z === z);
+      if (!el) return;
+
+      const box = document.createElement('div');
+      box.className = `el-box ${el.cat}`;
+      box.innerHTML = `
+        <div class="el-num">${el.z}</div>
+        <div class="el-sym">${el.s}</div>
+        <div class="el-name">${el.name}</div>
+      `;
+      box.onclick = () => showElementDetail(el);
+      gridEl.appendChild(box);
     }
 
     function showElementDetail(el) {
@@ -652,23 +798,29 @@
       document.getElementById('elementDetailScreen').classList.add('active');
       document.getElementById('detailHeaderTitle').innerText = `${el.name} (${el.s}) — Атом Құрылысы`;
 
-      const p = el.z;
-      const n = Math.round(p * 1.2);
-      let orbits = [2, p > 2 ? p - 2 : 0];
-      if(p > 10) orbits = [2, 8, p - 10];
+      const p = el.z > 0 ? el.z : 57;
+      const n = Math.round(p * 1.3);
+      let orbits = [2, 8, 18, Math.max(1, p - 28)];
+      if (p <= 2) orbits = [p];
+      else if (p <= 10) orbits = [2, p - 2];
+      else if (p <= 18) orbits = [2, 8, p - 10];
+      else if (p <= 36) orbits = [2, 8, 18, p - 28];
+      else if (p <= 54) orbits = [2, 8, 18, 18, p - 46];
+      else orbits = [2, 8, 18, 32, 18, Math.max(1, p - 78)];
 
       const content = document.getElementById('elementDetailContent');
       content.innerHTML = `
         <div class="detail-info">
           <h2>${el.name} (${el.s})</h2>
           <div class="info-badge">
-            <b>Реттік нөмірі (Z):</b> ${p}<br>
+            <b>Реттік нөмірі (Z):</b> ${el.z > 0 ? el.z : 'Серия'}<br>
             <b>Салыстырмалы атомдық массасы:</b> ${el.mass}<br>
             <b>Протондар саны:</b> ${p}<br>
             <b>Нейтрондар саны:</b> ~${n}<br>
             <b>Электрондық қабаттар:</b> ${orbits.join(' - ')}<br>
             <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:12px 0;">
-            <b>Сипаттамасы:</b> ${el.desc}
+            <b>Сипаттамасы:</b><br>
+            ${el.desc}
           </div>
         </div>
         <div class="viewport" id="detailViewport">
@@ -678,12 +830,12 @@
 
       const vp = document.getElementById('detailViewport');
       orbits.forEach((cnt, idx) => {
-        if(cnt <= 0) return;
         const size = 115 + (idx * 45);
         const orb = document.createElement('div');
         orb.className = 'orbit';
         orb.style.width = `${size}px`;
         orb.style.height = `${size}px`;
+
         for (let i = 0; i < cnt; i++) {
           const ele = document.createElement('div');
           ele.className = 'electron';
