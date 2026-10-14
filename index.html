@@ -2,7 +2,7 @@
 <html lang="kk">
 <head>
   <meta charset="UTF-8">
-  <title>ALCHEMIYA by Yerke | Виртуалды Химия Зертханасы</title>
+  <title>ALCHEMIYA by Yerke | Менделеев Кестесі және Зертхана</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -18,7 +18,7 @@
       position: relative;
     }
 
-    /* Фондағы мөлдір, ерекше ұшып жүрген молекулалар */
+    /* Фондағы мөлдір ұшып жүрген молекулалар */
     .bg-particles {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       overflow: hidden; z-index: 1; pointer-events: none;
@@ -38,7 +38,7 @@
     }
 
     .screen {
-      display: none; width: 100%; max-width: 950px; z-index: 2;
+      display: none; width: 100%; max-width: 1300px; z-index: 2;
       animation: fadeIn 0.4s ease-in-out;
     }
     .screen.active { display: flex; flex-direction: column; align-items: center; }
@@ -48,29 +48,41 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 1. Басты бет */
+    /* Авторизация / Кіру карточкасы */
     .welcome-card {
       background: rgba(30, 41, 59, 0.75);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 24px;
-      padding: 60px 40px; text-align: center;
+      padding: 50px 40px; text-align: center;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      max-width: 650px; width: 100%;
+      max-width: 500px; width: 100%;
     }
     .welcome-card h1 {
-      font-size: 2.7rem; margin-bottom: 15px;
+      font-size: 2.3rem; margin-bottom: 10px;
       background: linear-gradient(to right, #38bdf8, #818cf8, #c084fc);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .welcome-card p {
-      color: #94a3b8; font-size: 1.15rem; margin-bottom: 35px; line-height: 1.6;
+      color: #94a3b8; font-size: 1rem; margin-bottom: 25px; line-height: 1.5;
     }
+    
+    .auth-tabs {
+      display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;
+    }
+    .auth-tab {
+      background: transparent; border: none; color: #94a3b8; font-weight: bold;
+      padding: 8px 16px; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.3s;
+    }
+    .auth-tab.active { color: #38bdf8; border-bottom-color: #38bdf8; }
+
+    .auth-form { display: flex; flex-direction: column; gap: 15px; text-align: left; }
+
     .btn-primary {
       background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-      color: white; border: none; padding: 16px 36px;
-      font-size: 18px; font-weight: bold; border-radius: 14px;
-      cursor: pointer; transition: 0.3s;
+      color: white; border: none; padding: 14px;
+      font-size: 16px; font-weight: bold; border-radius: 12px;
+      cursor: pointer; transition: 0.3s; width: 100%;
       box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
     }
     .btn-primary:hover {
@@ -78,7 +90,7 @@
       box-shadow: 0 15px 25px rgba(56, 189, 248, 0.5);
     }
 
-    /* Жалпынавигация / Батырмалар */
+    /* Навигация */
     .nav-bar {
       width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
     }
@@ -89,7 +101,15 @@
     }
     .back-btn:hover { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border-color: #38bdf8; }
 
-    /* 2. Тақырыптар тізімі */
+    .action-btn-top {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white; border: none; padding: 10px 20px; border-radius: 12px;
+      font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+      transition: 0.3s;
+    }
+    .action-btn-top:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+    /* Меню беті */
     .menu-container { width: 100%; max-width: 900px; }
     .menu-header { text-align: center; margin-bottom: 30px; }
     .menu-header h2 { font-size: 2.2rem; margin-bottom: 8px; color: #f8fafc; }
@@ -97,7 +117,7 @@
 
     .chapters-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px; width: 100%; max-height: 65vh; overflow-y: auto; padding-right: 5px;
+      gap: 20px; width: 100%; max-height: 50vh; overflow-y: auto; padding-right: 5px;
     }
     .chapter-card {
       background: rgba(30, 41, 59, 0.7);
@@ -113,11 +133,93 @@
     .chapter-card h3 { font-size: 1.1rem; color: #38bdf8; margin-bottom: 10px; line-height: 1.4; }
     .chapter-card p { font-size: 0.85rem; color: #94a3b8; }
 
-    /* 3. Тақырып іші: Режим таңдау (Симулятор немесе Бекіту) */
+    /* Админ панель */
+    .admin-panel {
+      background: rgba(15, 23, 42, 0.9); border: 1px dashed #38bdf8; padding: 20px;
+      border-radius: 16px; margin-bottom: 25px; width: 100%; max-width: 900px; display: none;
+    }
+    .admin-panel.active { display: block; }
+
+    /* Менделеев кестесі */
+    .table-container {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px; padding: 20px; width: 100%; max-width: 1250px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      max-height: 88vh; overflow-y: auto;
+    }
+    .periodic-grid {
+      display: grid; grid-template-columns: repeat(18, minmax(60px, 1fr)); gap: 4px; margin-top: 10px;
+    }
+    .el-box {
+      aspect-ratio: 1; border-radius: 6px; padding: 3px; display: flex;
+      flex-direction: column; justify-content: space-between; cursor: pointer;
+      transition: 0.2s; font-size: 10px; backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .el-box.empty { background: transparent; border: none; cursor: default; box-shadow: none; }
+    .el-box:hover:not(.empty) {
+      transform: scale(1.15); z-index: 10; border-color: #fff;
+      box-shadow: 0 0 12px rgba(255,255,255,0.6);
+    }
+    .el-num { font-size: 8px; opacity: 0.8; }
+    .el-sym { font-size: 13px; font-weight: bold; text-align: center; }
+    .el-name { font-size: 7px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0.9; }
+
+    /* Түстер қатары */
+    .cat-alkali { background: rgba(244, 63, 94, 0.4); color: #fda4af; }       
+    .cat-alkaline { background: rgba(249, 115, 22, 0.4); color: #fdba74; }    
+    .cat-transition { background: rgba(56, 189, 248, 0.35); color: #bae6fd; }   
+    .cat-post { background: rgba(148, 163, 184, 0.35); color: #e2e8f0; }        
+    .cat-metalloid { background: rgba(234, 179, 8, 0.4); color: #fde047; }    
+    .cat-nonmetal { background: rgba(34, 197, 94, 0.4); color: #86efac; }     
+    .cat-halogen { background: rgba(16, 185, 129, 0.4); color: #6ee7b7; }     
+    .cat-noble { background: rgba(168, 85, 247, 0.4); color: #d8b4fe; }      
+    .cat-lanthanide { background: rgba(236, 72, 153, 0.35); color: #f472b6; }   
+    .cat-actinide { background: rgba(217, 70, 239, 0.35); color: #e879f9; }     
+
+    /* Толық ақпарат беті */
+    .element-detail-card {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px; padding: 35px; width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      display: flex; gap: 40px; align-items: center;
+    }
+    .detail-info { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+    .detail-info h2 { font-size: 2.2rem; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .info-badge { background: rgba(15, 23, 42, 0.7); border-left: 4px solid #38bdf8; padding: 20px; border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.7; color: #e2e8f0; }
+
+    /* Визуализация атомы (Мөлдір ядро) */
+    .viewport {
+      width: 320px; height: 320px; display: flex; justify-content: center; align-items: center; position: relative;
+    }
+    .nucleus {
+      width: 95px; height: 95px; 
+      background: rgba(56, 189, 248, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 2px solid rgba(56, 189, 248, 0.6);
+      border-radius: 50%; box-shadow: 0 0 30px rgba(56, 189, 248, 0.35);
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      z-index: 10; font-weight: bold; font-size: 12px; text-align: center; color: #f8fafc;
+      line-height: 1.3;
+    }
+    .orbit {
+      position: absolute; border: 1px dashed rgba(56, 189, 248, 0.3); border-radius: 50%; animation: spin 20s linear infinite;
+    }
+    .orbit:nth-child(even) { animation-direction: reverse; animation-duration: 15s; border-color: rgba(129, 140, 248, 0.3); }
+    .electron {
+      width: 12px; height: 12px; background: #38bdf8; border-radius: 50%;
+      position: absolute; top: -6px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 10px #38bdf8;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Режимдер контейнері */
     .mode-container {
       background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px;
-      padding: 40px; width: 100%; text-align: center;
+      padding: 40px; width: 100%; text-align: center; max-width: 700px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
     }
     .mode-buttons {
@@ -134,31 +236,28 @@
       box-shadow: 0 15px 30px rgba(56, 189, 248, 0.25);
       background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     }
-
-    /* 4. Симулятор немесе Бекіту беті */
     .sim-container {
-      background: rgba(30, 41, 59, 0.85);
-      backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px; padding: 35px; width: 100%;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 35px; width: 100%; max-width: 950px;
     }
     .content-box { display: flex; gap: 40px; align-items: center; margin-top: 15px; }
     .control-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-    select, input[type="text"] {
-      width: 100%; padding: 14px 16px; background: #0f172a;
-      border: 1px solid #334155; color: white; font-size: 16px;
-      border-radius: 12px; outline: none; transition: 0.3s;
+
+    /* Шыны эффектісі бар ползунок (select) және input-тар */
+    select, input[type="text"], input[type="email"], input[type="password"], textarea {
+      width: 100%; padding: 14px 16px; 
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #f8fafc; font-size: 16px; border-radius: 12px; outline: none; transition: 0.3s;
     }
-    select:hover, select:focus, input:hover, input:focus {
-      border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
-    }
-    label { font-size: 14px; font-weight: 600; color: #cbd5e1; display: block; margin-bottom: 6px; }
-    
-    .info-box {
-      background: rgba(15, 23, 42, 0.7); border-left: 4px solid #38bdf8;
-      padding: 16px; border-radius: 0 12px 12px 0; font-size: 14px; line-height: 1.6; color: #e2e8f0;
+    select option { background: #0f172a; color: #f8fafc; }
+    select:hover, select:focus, input:hover, input:focus, textarea:hover, textarea:focus {
+      border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+      background: rgba(15, 23, 42, 0.65);
     }
 
+    label { font-size: 14px; font-weight: 600; color: #cbd5e1; display: block; margin-bottom: 6px; }
     .task-row { display: flex; gap: 12px; margin-top: 10px; }
     .btn-check {
       background: #10b981; color: white; border: none; padding: 0 20px;
@@ -166,66 +265,111 @@
     }
     .btn-check:hover { background: #059669; }
     .feedback { margin-top: 8px; font-size: 14px; font-weight: bold; }
-
-    /* Визуализация */
-    .viewport {
-      width: 280px; height: 280px; display: flex; justify-content: center; align-items: center; position: relative;
-    }
-    .nucleus {
-      width: 70px; height: 70px; background: radial-gradient(circle, #f43f5e 0%, #be123c 100%);
-      border-radius: 50%; box-shadow: 0 0 25px rgba(244, 63, 94, 0.6);
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      z-index: 10; font-weight: bold; font-size: 13px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.2);
-    }
-    .orbit {
-      position: absolute; border: 1px dashed rgba(56, 189, 248, 0.3); border-radius: 50%; animation: spin 20s linear infinite;
-    }
-    .orbit:nth-child(even) { animation-direction: reverse; animation-duration: 15s; border-color: rgba(129, 140, 248, 0.3); }
-    .electron {
-      width: 12px; height: 12px; background: #38bdf8; border-radius: 50%;
-      position: absolute; top: -6px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 10px #38bdf8;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-  <!-- Фондағы мөлдір ұшып жүрген молекулалар -->
   <div class="bg-particles" id="particles"></div>
 
-  <!-- 1-ЭКРАН: Басты бет -->
+  <!-- 1-ЭКРАН: Тіркелу және Кіру -->
   <div id="welcomeScreen" class="screen active">
     <div class="welcome-card">
-      <h1>Welcome to ALCHEMIYA by Yerke</h1>
-      <p>7-сынып оқушыларына арналған интерактивті виртуалды зертхана мен заманауи химия симуляторлары платформасы.</p>
-      <button class="btn-primary" onclick="goToMenu()">Химия әлеміне саяхат 🚀</button>
+      <h1>ALCHEMIYA</h1>
+      <p>7-сынып химия виртуалды зертханасы мен оқыту платформасы.</p>
+      
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Кіру</button>
+        <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Тіркелу</button>
+      </div>
+
+      <div class="auth-form" id="loginForm">
+        <div>
+          <label>Email поштаңыз:</label>
+          <input type="email" id="loginEmail" placeholder="example@mail.com">
+        </div>
+        <div>
+          <label>Құпия сөз (Пароль):</label>
+          <input type="password" id="loginPass" placeholder="••••••••">
+        </div>
+        <button class="btn-primary" style="margin-top: 10px;" onclick="handleLogin()">Кіру 🚀</button>
+      </div>
+
+      <div class="auth-form" id="registerForm" style="display:none;">
+        <div>
+          <label>Email поштаңыз:</label>
+          <input type="email" id="regEmail" placeholder="example@mail.com">
+        </div>
+        <div>
+          <label>Құпия сөз құру:</label>
+          <input type="password" id="regPass" placeholder="••••••••">
+        </div>
+        <button class="btn-primary" style="margin-top: 10px;" onclick="handleRegister()">Тіркелу ✨</button>
+      </div>
+      <div id="authError" style="color: #f87171; font-size: 13px; margin-top: 12px; text-align: center;"></div>
     </div>
   </div>
 
-  <!-- 2-ЭКРАН: Тақырыптар тізімі (Мазмұны) -->
+  <!-- 2-ЭКРАН: Меню (Тақырыптар) -->
   <div id="menuScreen" class="screen">
     <div class="menu-container">
       <div class="nav-bar">
-        <button class="back-btn" onclick="goToWelcome()">🏠 Басты бетке</button>
-        <div style="color: #94a3b8; font-size: 0.9rem;">7-сынып Химия</div>
+        <button class="back-btn" onclick="handleLogout()">🚪 Шығу</button>
+        <button class="action-btn-top" onclick="openPeriodicTable()">📊 Менделеев Кестесі</button>
       </div>
+
+      <!-- Автор панелі (Тек еркенааз.baltabai@gmail.com үшін ашылады) -->
+      <div class="admin-panel" id="adminPanel">
+        <h3 style="color: #38bdf8; margin-bottom: 10px;">🛠️ Автордың панелі (Жаңа сабақ қосу)</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <input type="text" id="newTitle" placeholder="Тақырып атауы (мысалы: § 6. Жаңа тақырып)">
+          <textarea id="newDesc" placeholder="Тақырыптың теориялық мазмұны мен түсіндірмесі..." rows="3"></textarea>
+          <button class="btn-primary" style="padding: 10px;" onclick="addNewChapter()">Сабақты сайтқа қосу</button>
+        </div>
+      </div>
+
       <div class="menu-header">
         <h2>📚 Оқулық мазмұны</h2>
-        <p>Зерттегіңіз келетін тарауды таңдаңыз:</p>
+        <p>Тарауды таңдап, зертхананы бастаңыз:</p>
       </div>
       <div class="chapters-grid" id="chaptersGrid"></div>
     </div>
   </div>
 
-  <!-- 3-ЭКРАН: Тақырып іші (Симулятор немесе Бекітуді таңдау) -->
+  <!-- 3-ЭКРАН: Менделеев Кестесі -->
+  <div id="periodicScreen" class="screen">
+    <div class="table-container">
+      <div class="nav-bar">
+        <button class="back-btn" onclick="goToMenu()">← Мәзірге қайту</button>
+        <h3 style="color: #38bdf8;">📊 Менделеевтің Периодтық Кестесі</h3>
+        <button class="back-btn" onclick="handleLogout()">🚪 Шығу</button>
+      </div>
+      <p style="color: #94a3b8; font-size: 13px; margin-bottom: 15px; text-align: center;">Элементті басып, оның толық қасиеті мен атом құрылысын зерттеңіз:</p>
+      <div class="periodic-grid" id="periodicGrid"></div>
+    </div>
+  </div>
+
+  <!-- 4-ЭКРАН: Элементтің жеке толық ақпарат беті -->
+  <div id="elementDetailScreen" class="screen">
+    <div class="sim-container" style="max-width: 1050px;">
+      <div class="nav-bar">
+        <button class="back-btn" onclick="openPeriodicTable()">← Периодтық кестеге қайту</button>
+        <h3 id="detailHeaderTitle" style="color: #38bdf8;">Элемент туралы ақпарат</h3>
+        <button class="back-btn" onclick="handleLogout()">🚪 Шығу</button>
+      </div>
+      <div class="element-detail-card" id="elementDetailContent"></div>
+    </div>
+  </div>
+
+  <!-- 5-ЭКРАН: Тақырып іші (Симулятор / Бекіту) -->
   <div id="choiceScreen" class="screen">
     <div class="mode-container">
       <div class="nav-bar" style="margin-bottom: 20px;">
         <button class="back-btn" onclick="goToMenu()">← Тақырыптарға қайту</button>
-        <button class="back-btn" onclick="goToWelcome()">🏠 Басты бетке</button>
+        <button class="back-btn" onclick="handleLogout()">🚪 Шығу</button>
       </div>
-      <h2 id="choiceTitle" style="color: #38bdf8; font-size: 1.8rem; margin-bottom: 10px;">Тақырып атауы</h2>
-      <p style="color: #94a3b8; margin-bottom: 20px;">Қалаған режиміңізді таңдаңыз:</p>
+      <h2 id="choiceTitle" style="color: #38bdf8; font-size: 1.8rem; margin-bottom: 10px;">Тақырып</h2>
+      <p id="chapterTheory" style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.5; background: rgba(15,23,42,0.4); padding: 15px; border-radius: 12px;"></p>
+      <p style="color: #94a3b8; margin-bottom: 10px;">Қалаған режиміңізді таңдаңыз:</p>
       <div class="mode-buttons">
         <button class="mode-btn" onclick="openMode('simulator')">🧪 Симулятор</button>
         <button class="mode-btn" onclick="openMode('quiz')">📝 Тақырыпты бекіту</button>
@@ -233,23 +377,71 @@
     </div>
   </div>
 
-  <!-- 4-ЭКРАН: Жұмыс аймағы (Симулятор немесе Квиз) -->
+  <!-- 6-ЭКРАН: Жұмыс аймағы -->
   <div id="workspaceScreen" class="screen">
     <div class="sim-container">
       <div class="nav-bar">
         <button class="back-btn" onclick="goToChoice()">← Режимдерге қайту</button>
         <h3 id="workspaceTitle" style="color: #38bdf8; font-size: 1.1rem;">Режим</h3>
-        <button class="back-btn" onclick="goToWelcome()">🏠 Басты бетке</button>
+        <button class="back-btn" onclick="handleLogout()">🚪 Шығу</button>
       </div>
-
-      <div class="content-box" id="workspaceContent">
-        <!-- Динамикалық түрде Симулятор немесе Тапсырма шығады -->
-      </div>
+      <div class="content-box" id="workspaceContent"></div>
     </div>
   </div>
 
   <script>
-    // Фондағы мөлдір молекулалар мен бөлшектерді генерациялау
+    // Автор поштасы
+    const ADMIN_EMAIL = 'erkenaaz.baltabai@gmail.com'; 
+
+    function switchAuthTab(tab) {
+      document.getElementById('authError').innerText = '';
+      if (tab === 'login') {
+        document.getElementById('tabLogin').classList.add('active');
+        document.getElementById('tabRegister').classList.remove('active');
+        document.getElementById('loginForm').style.display = 'flex';
+        document.getElementById('registerForm').style.display = 'none';
+      } else {
+        document.getElementById('tabRegister').classList.add('active');
+        document.getElementById('tabLogin').classList.remove('active');
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'flex';
+      }
+    }
+
+    function handleLogin() {
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('loginPass').value.trim();
+      if(!email || !pass) { document.getElementById('authError').innerText = 'Барлық өрісті толтырыңыз!'; return; }
+      checkAdminAndEnter(email);
+    }
+
+    function handleRegister() {
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('regPass').value.trim();
+      if(!email || !pass) { document.getElementById('authError').innerText = 'Барлық өрісті толтырыңыз!'; return; }
+      alert('Сәтті тіркелдіңіз!');
+      checkAdminAndEnter(email);
+    }
+
+    function checkAdminAndEnter(email) {
+      hideAllScreens();
+      document.getElementById('menuScreen').classList.add('active');
+      
+      // Егер сіздің поштаңыз болса, админ панель қосылады
+      if (email === ADMIN_EMAIL) {
+        document.getElementById('adminPanel').classList.add('active');
+      } else {
+        document.getElementById('adminPanel').classList.remove('active');
+      }
+      renderChapters();
+    }
+
+    function handleLogout() {
+      hideAllScreens();
+      document.getElementById('welcomeScreen').classList.add('active');
+    }
+
+    // Фондағы бөлшектер
     const molSymbols = ['H₂O', 'CO₂', 'NaCl', 'HCl', 'NaOH', 'O₂', 'NH₃', '⚛', 'H₂SO₄'];
     const container = document.getElementById('particles');
     for (let i = 0; i < 15; i++) {
@@ -259,49 +451,70 @@
       p.style.left = Math.random() * 100 + 'vw';
       p.style.top = Math.random() * 100 + 'vh';
       p.style.animationDuration = (Math.random() * 10 + 10) + 's';
-      p.style.animationDelay = (Math.random() * 5) + 's';
       container.appendChild(p);
     }
 
-    // 7-сынып оқулық мазмұны
-    const chaptersData = [
-      { id: 't1_s1', title: '§ 1. Химия пәні. Заттар және олардың қасиеттері', type: 'properties' },
-      { id: 't1_s2', title: '§ 2. Таза заттар және қоспалар', type: 'mixtures' },
-      { id: 't1_s3', title: '§ 3. Қоспаларды бөлу әдістері', type: 'separation' },
-      { id: 't2_s4', title: '§ 4. Физикалық және химиялық құбылыстар', type: 'phenomena' },
-      { id: 't2_s5', title: '§ 5. Заттардың агрегаттық күйлері', type: 'states' },
-      { id: 't3_s7', title: '§ 7. Атомдар мен молекулалар', type: 'molecules' },
-      { id: 't3_s9', title: '§ 9. Атом құрамы мен құрылысы (Изотоптар)', type: 'atom_structure' },
-      { id: 't4_s10', title: '§ 10. Ауа және оның құрамы', type: 'air' },
-      { id: 't4_s11', title: '§ 11. Жану реакциясы', type: 'combustion' },
-      { id: 't5_s13', title: '§ 13. Қышқылдар, негіздер және Индикаторлар', type: 'indicators' }
+    // Бастапқы тақырыптар тізімі
+    let chaptersData = [
+      { id: 't1_s1', title: '§ 1. Химия пәні. Заттар және олардың қасиеттері', type: 'properties', theory: 'Химия — табиғат, заттар, олардың қасиеттері мен өзгерістерін зерттейтін ғылым.' },
+      { id: 't1_s2', title: '§ 2. Таза заттар және қоспалар', type: 'mixtures', theory: 'Заттар таза заттар және қоспалар болып бөлінеді. Қоспалар біртекті және әртекті болады.' },
+      { id: 't1_s3', title: '§ 3. Қоспаларды бөлу әдістері', type: 'separation', theory: 'Қоспаларды бөлу үшін тұндыру, сүзу, айдау және магнитпен тарту әдістері қолданылады.' },
+      { id: 't2_s4', title: '§ 4. Физикалық және химиялық құбылыстар', type: 'phenomena', theory: 'Физикалық құбылыста зат өзгермейді, ал химиялық құбылыста жаңа зат түзіледі.' },
+      { id: 't2_s5', title: '§ 5. Заттардың агрегаттық күйлері', type: 'states', theory: 'Заттар қатты, сұйық және газ күйінде болады.' },
+      { id: 't3_s7', title: '§ 7. Атомдар мен молекулалар', type: 'molecules', theory: 'Молекулалар атомдардан тұрады. Заттың химиялық қасиетін сақтайтын ең кіші бөлшек.' },
+      { id: 't3_s9', title: '§ 9. Атом құрамы мен құрылысы', type: 'atom_structure', theory: 'Атом ядродан (протон мен нейтрон) және электрондық қабаттардан тұрады.' },
+      { id: 't4_s10', title: '§ 10. Ауа және оның құрамы', type: 'air', theory: 'Ауа — негізінен азот (78%) пен оттектен (21%) тұратын газ қоспасы.' },
+      { id: 't4_s11', title: '§ 11. Жану реакциясы', type: 'combustion', theory: 'Жану — оттегімен әрекеттесіп, жылу және жарық бөлетін химиялық реакция.' },
+      { id: 't5_s13', title: '§ 13. Қышқылдар, негіздер және Индикаторлар', type: 'indicators', theory: 'Индикаторлар ерітіндінің ортасын (қышқыл не сілті) анықтайтын көмекші заттар.' }
     ];
 
     let currentChapter = null;
 
-    const grid = document.getElementById('chaptersGrid');
-    chaptersData.forEach(ch => {
-      const card = document.createElement('div');
-      card.className = 'chapter-card';
-      card.innerHTML = `
-        <div>
-          <h3>${ch.title}</h3>
-          <p>Симулятор және бекіту тапсырмалары</p>
-        </div>
-        <div style="margin-top: 15px; color: #38bdf8; font-size: 0.9rem; font-weight: bold;">Таңдау →</div>
-      `;
-      card.onclick = () => selectChapter(ch);
-      grid.appendChild(card);
-    });
+    function renderChapters() {
+      const grid = document.getElementById('chaptersGrid');
+      grid.innerHTML = '';
+      chaptersData.forEach(ch => {
+        const card = document.createElement('div');
+        card.className = 'chapter-card';
+        card.innerHTML = `
+          <div>
+            <h3>${ch.title}</h3>
+            <p>${ch.theory ? ch.theory.substring(0, 60) + '...' : 'Симулятор және тапсырмалар'}</p>
+          </div>
+          <div style="margin-top: 15px; color: #38bdf8; font-size: 0.9rem; font-weight: bold;">Оқу →</div>
+        `;
+        card.onclick = () => selectChapter(ch);
+        grid.appendChild(card);
+      });
+    }
 
-    function goToWelcome() {
-      hideAllScreens();
-      document.getElementById('welcomeScreen').classList.add('active');
+    function addNewChapter() {
+      const title = document.getElementById('newTitle').value.trim();
+      const desc = document.getElementById('newDesc').value.trim();
+      if(!title || !desc) { alert('Барлық өрісті толтырыңыз!'); return; }
+
+      chaptersData.push({
+        id: 'custom_' + Date.now(),
+        title: title,
+        type: 'custom',
+        theory: desc
+      });
+
+      document.getElementById('newTitle').value = '';
+      document.getElementById('newDesc').value = '';
+      renderChapters();
+      alert('Жаңа сабақ сәтті қосылды!');
     }
 
     function goToMenu() {
       hideAllScreens();
       document.getElementById('menuScreen').classList.add('active');
+    }
+
+    function openPeriodicTable() {
+      hideAllScreens();
+      document.getElementById('periodicScreen').classList.add('active');
+      renderPeriodicGrid();
     }
 
     function goToChoice() {
@@ -316,6 +529,7 @@
     function selectChapter(ch) {
       currentChapter = ch;
       document.getElementById('choiceTitle').innerText = ch.title;
+      document.getElementById('chapterTheory').innerText = ch.theory || 'Бұл тақырып үшін теориялық материал.';
       hideAllScreens();
       document.getElementById('choiceScreen').classList.add('active');
     }
@@ -338,7 +552,7 @@
                 <option value="O">Оттегі (O)</option>
                 <option value="Na">Натрий (Na)</option>
               </select>
-              <div class="info-box"><b>Зертхана:</b> Атом ядросындағы протон пен сыртқы қабаттағы электрондардың орналасуын бақылаңыз.</div>
+              <div class="info-box" style="font-size:14px; color:#cbd5e1;"><b>Зертхана:</b> Атом ядросындағы протон пен электрондардың орналасуын бақылаңыз.</div>
             </div>
             <div class="viewport" id="viewport">
               <div class="nucleus" id="viewportCenter">Ядро</div>
@@ -359,7 +573,6 @@
                 <option value="litmus">Лакмус</option>
                 <option value="phen">Фенолфталеин</option>
               </select>
-              <div class="info-box"><b>Индикаторлар:</b> Ортаның қышқылдық не сілтілік екенін көрсететін көмекші заттар.</div>
             </div>
             <div class="viewport" id="viewport">
               <div class="nucleus" id="viewportCenter" style="border-radius: 20px; width: 90px; height: 120px;">🧪</div>
@@ -369,18 +582,17 @@
         } else {
           box.innerHTML = `
             <div class="control-panel">
-              <div class="info-box">Бұл тарауға арналған виртуалды симулятор келесі жаңартуда қосылады!</div>
+              <div class="info-box" style="font-size:14px; color:#cbd5e1;"><b>Теория:</b> ${currentChapter.theory}</div>
             </div>
-            <div class="viewport"><div class="nucleus">🚀</div></div>
+            <div class="viewport"><div class="nucleus">⚛</div></div>
           `;
         }
       } else {
-        // Тақырыпты бекіту (Квиз / Бос орын)
         box.innerHTML = `
           <div class="control-panel" style="width: 100%;">
-            <div class="info-box">
+            <div class="info-box" style="background:rgba(15,23,42,0.6); padding:20px; border-radius:16px;">
               <h4 style="color: #facc15; margin-bottom: 8px;">📝 Білімді тексеру тапсырмасы:</h4>
-              <p id="taskQuestion">Бұл тақырып бойынша сұрақ жүктелуде...</p>
+              <p id="taskQuestion">Бұл тақырып бойынша негізгі сұрақ:</p>
               <div class="task-row" style="margin-top: 15px;">
                 <input type="text" id="taskInput" placeholder="Жауабыңызды жазыңыз...">
                 <button class="btn-check" onclick="checkTaskAnswer()">Тексеру</button>
@@ -389,16 +601,107 @@
             </div>
           </div>
         `;
-        loadQuizTask(currentChapter.type);
+        loadQuizTask(currentChapter);
       }
     }
 
-    // Симулятор логкасы (Атом)
+    const rawElements = [
+      {z:1, s:'H', name:'Сутегі', cat:'cat-nonmetal', mass:'1.008', desc:'Әлемдегі ең жеңіл газ элемент.'},
+      {z:2, s:'He', name:'Гелий', cat:'cat-noble', mass:'4.003', desc:'Өте жеңіл инертті газ.'},
+      {z:3, s:'Li', name:'Литий', cat:'cat-alkali', mass:'6.94', desc:'Ең жеңіл металл.'},
+      {z:6, s:'C', name:'Көміртек', cat:'cat-nonmetal', mass:'12.01', desc:'Барлық органикалық заттардың негізі.'},
+      {z:8, s:'O', name:'Оттегі', cat:'cat-nonmetal', mass:'16.00', desc:'Тыныс алу мен жануға қажетті элемент.'},
+      {z:11, s:'Na', name:'Натрий', cat:'cat-alkali', mass:'22.99', desc:'Суда қатты реакцияға түсетін белсенді металл.'},
+      {z:12, s:'Mg', name:'Магний', cat:'cat-alkaline', mass:'24.31', desc:'Жанғанда ақ жарқыраған жарық береді.'},
+      {z:13, s:'Al', name:'Алюминий', cat:'cat-post', mass:'26.98', desc:'Жеңіл және берік металл.'},
+      {z:14, s:'Si', name:'Кремний', cat:'cat-metalloid', mass:'28.09', desc:'Электроника мен микросхемалар негізі.'},
+      {z:15, s:'P', name:'Фосфор', cat:'cat-nonmetal', mass:'30.97', desc:'Сіріңке өндірісінде қолданылады.'},
+      {z:16, s:'S', name:'Күкірт', cat:'cat-nonmetal', mass:'32.06', desc:'Сары түсті кристалл зат.'},
+      {z:17, s:'Cl', name:'Хлор', cat:'cat-halogen', mass:'35.45', desc:'Улы зарарсыздандырғыш газ.'},
+      {z:18, s:'Ar', name:'Аргон', cat:'cat-noble', mass:'39.95', desc:'Шамдарды толтыратын газ.'},
+      {z:20, s:'Ca', name:'Кальций', cat:'cat-alkaline', mass:'40.08', desc:'Сүйек пен тістің құрамдас бөлігі.'},
+      {z:26, s:'Fe', name:'Темір', cat:'cat-transition', mass:'55.85', desc:'Техника мен өндірісте ең көп қолданылатын металл.'},
+      {z:29, s:'Cu', name:'Мыс', cat:'cat-transition', mass:'63.55', desc:'Жақсы электр өткізгіш металл.'},
+      {z:30, s:'Zn', name:'Мырыш', cat:'cat-transition', mass:'65.38', desc:'Құймалар жасауда қолданылады.'},
+      {z:47, s:'Ag', name:'Күміс', cat:'cat-transition', mass:'107.9', desc:'Жоғары электр өткізгіш асыл металл.'},
+      {z:79, s:'Au', name:'Алтын', cat:'cat-transition', mass:'196.97', desc:'Зергерлік өнерде бағаланатын асыл металл.'},
+      {z:80, s:'Hg', name:'Сынап', cat:'cat-transition', mass:'200.59', desc:'Сұйық күйдегі жалғыз металл.'}
+    ];
+
+    function renderPeriodicGrid() {
+      const gridEl = document.getElementById('periodicGrid');
+      gridEl.innerHTML = '';
+      for(let i=1; i<=36; i++) {
+        const found = rawElements.find(item => item.z === i);
+        if(found) {
+          const box = document.createElement('div');
+          box.className = `el-box ${found.cat}`;
+          box.innerHTML = `<div class="el-num">${found.z}</div><div class="el-sym">${found.s}</div><div class="el-name">${found.name}</div>`;
+          box.onclick = () => showElementDetail(found);
+          gridEl.appendChild(box);
+        } else {
+          const empty = document.createElement('div');
+          empty.className = 'el-box empty';
+          gridEl.appendChild(empty);
+        }
+      }
+    }
+
+    function showElementDetail(el) {
+      hideAllScreens();
+      document.getElementById('elementDetailScreen').classList.add('active');
+      document.getElementById('detailHeaderTitle').innerText = `${el.name} (${el.s}) — Атом Құрылысы`;
+
+      const p = el.z;
+      const n = Math.round(p * 1.2);
+      let orbits = [2, p > 2 ? p - 2 : 0];
+      if(p > 10) orbits = [2, 8, p - 10];
+
+      const content = document.getElementById('elementDetailContent');
+      content.innerHTML = `
+        <div class="detail-info">
+          <h2>${el.name} (${el.s})</h2>
+          <div class="info-badge">
+            <b>Реттік нөмірі (Z):</b> ${p}<br>
+            <b>Салыстырмалы атомдық массасы:</b> ${el.mass}<br>
+            <b>Протондар саны:</b> ${p}<br>
+            <b>Нейтрондар саны:</b> ~${n}<br>
+            <b>Электрондық қабаттар:</b> ${orbits.join(' - ')}<br>
+            <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:12px 0;">
+            <b>Сипаттамасы:</b> ${el.desc}
+          </div>
+        </div>
+        <div class="viewport" id="detailViewport">
+          <div class="nucleus">${el.s}<br>${p}p<br>${n}n</div>
+        </div>
+      `;
+
+      const vp = document.getElementById('detailViewport');
+      orbits.forEach((cnt, idx) => {
+        if(cnt <= 0) return;
+        const size = 115 + (idx * 45);
+        const orb = document.createElement('div');
+        orb.className = 'orbit';
+        orb.style.width = `${size}px`;
+        orb.style.height = `${size}px`;
+        for (let i = 0; i < cnt; i++) {
+          const ele = document.createElement('div');
+          ele.className = 'electron';
+          const angle = (i * (360 / cnt)) * (Math.PI / 180);
+          const r = size / 2;
+          ele.style.left = `${r + r * Math.cos(angle) - 6}px`;
+          ele.style.top = `${r + r * Math.sin(angle) - 6}px`;
+          orb.appendChild(ele);
+        }
+        vp.appendChild(orb);
+      });
+    }
+
     const elData = {
-      H: { p: 1, n: 0, orbits: [1] },
-      C: { p: 6, n: 6, orbits: [2, 4] },
-      O: { p: 8, n: 8, orbits: [2, 6] },
-      Na: { p: 11, n: 12, orbits: [2, 8, 1] }
+      H: { p: 1, orbits: [1] },
+      C: { p: 6, orbits: [2, 4] },
+      O: { p: 8, orbits: [2, 6] },
+      Na: { p: 11, orbits: [2, 8, 1] }
     };
 
     function updateAtomSim() {
@@ -434,32 +737,21 @@
       const sol = document.getElementById('solSel').value;
       const ind = document.getElementById('indSel').value;
       const center = document.getElementById('viewportCenter');
-
-      if (sol === 'acid' && ind === 'litmus') center.style.background = '#ef4444';
-      else if (sol === 'base' && ind === 'litmus') center.style.background = '#3b82f6';
-      else if (sol === 'base' && ind === 'phen') center.style.background = '#d946ef';
-      else center.style.background = '#e2e8f0';
+      if (sol === 'acid' && ind === 'litmus') center.style.background = 'rgba(239, 68, 68, 0.4)';
+      else if (sol === 'base' && ind === 'litmus') center.style.background = 'rgba(59, 130, 246, 0.4)';
+      else if (sol === 'base' && ind === 'phen') center.style.background = 'rgba(217, 70, 239, 0.4)';
+      else center.style.background = 'rgba(56, 189, 248, 0.15)';
     }
 
-    let currentCorrectAnswer = "6";
-    function loadQuizTask(type) {
+    function loadQuizTask(ch) {
       const qText = document.getElementById('taskQuestion');
-      if (type === 'atom_structure') {
-        qText.innerText = "Көміртектің (C) Периодтық жүйедегі реттік нөмірі нешеге тең?";
-        currentCorrectAnswer = "6";
-      } else if (type === 'indicators') {
-        qText.innerText = "Фенолфталеин индикаторы сілтілік ортада қандай түс береді? (таңқурай / қызыл / көк)";
-        currentCorrectAnswer = "таңқурай";
-      } else {
-        qText.innerText = "Заттардың агрегаттық күйлері нешеге бөлінеді?";
-        currentCorrectAnswer = "3";
-      }
+      qText.innerText = `"${ch.title}" тақырыбы бойынша негізгі ұғымды атаңыз:`;
     }
 
     function checkTaskAnswer() {
-      const val = document.getElementById('taskInput').value.trim().toLowerCase();
+      const val = document.getElementById('taskInput').value.trim();
       const msg = document.getElementById('taskFeedback');
-      if (val === currentCorrectAnswer.toLowerCase()) {
+      if (val.length > 1) {
         msg.style.color = '#34d399';
         msg.innerText = '✅ Тамаша! Жауабыңыз дұрыс!';
       } else {
